@@ -16,4 +16,4 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Run tests
-        run: npm test
+        run: TMDB_API_KEY=${{ secrets.MY_API_KEY }} npm test
