@@ -6,7 +6,7 @@ export default class TmDB {
   // perform API request
   async q(u, params = {}, body) {
     const options = { headers: { accept: `application/json`, authorization: `Bearer ${this.token}` } }
-    const url = new URL(`https://api.themoviedb.org/${u}`)
+    const url = new URL(`https://api.themoviedb.org/3/${u}`)
     url.search = new URLSearchParams(params)
     if (body) {
       options.headers[`content-type`] = `application/json`
@@ -129,7 +129,7 @@ export default class TmDB {
     return this.q(`movie/${movie_id}/keywords`, o)
   }
   // Lists
-  movieLists(o = {}) {
+  movieLists(movie_id, o = {}) {
     return this.q(`movie/${movie_id}/lists`, o)
   }
   // Recommendations
@@ -489,7 +489,7 @@ export default class TmDB {
     return this.q(`genre/tv/list`, o)
   }
   // Rated Movies
-  guestSessionRatedMovies(o = {}) {
+  guestSessionRatedMovies(guest_session_id, o = {}) {
     return this.q(`guest_session/${guest_session_id}/rated/movies`, o)
   }
   // Rated TV
