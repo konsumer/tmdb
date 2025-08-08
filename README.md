@@ -19,7 +19,7 @@ if (!TMDB_API_KEY) {
 
 const tmdb = new TmDB(TMDB_API_KEY)
 
-const r = await tmdb.searchMovie("Goonies")
+const r = await tmdb.searchMovie('Goonies')
 console.log(r)
 ```
 

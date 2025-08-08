@@ -13,15 +13,15 @@ const tmdb = new TmDB(TMDB_API_KEY)
 
 describe('movie', () => {
   test('searchMovie', async ({ assert }) => {
-    const r = await tmdb.searchMovie("goonies")
+    const r = await tmdb.searchMovie('goonies')
     assert.equal(r.results[0].original_title, 'The Goonies')
   })
-  
+
   test('discoverMovie', async ({ assert }) => {
     const r = await tmdb.discoverMovie()
     assert.equal(r.results.length, 20)
   })
-  
+
   test('movieDetails', async ({ assert }) => {
     const r = await tmdb.movieDetails(9340)
     assert.equal(r.original_title, 'The Goonies')
@@ -39,7 +39,7 @@ describe('movie', () => {
 
   test('movieAlternativeTitles', async ({ assert }) => {
     const r = await tmdb.movieAlternativeTitles(9340)
-    const st = r.titles.find(t => t.iso_3166_1 === 'FI')
+    const st = r.titles.find((t) => t.iso_3166_1 === 'FI')
     assert.equal(st.title, 'Dödskallegänget')
   })
 
@@ -50,11 +50,11 @@ describe('movie', () => {
 
   test('movieCredits', async ({ assert }) => {
     const r = await tmdb.movieCredits(9340)
-    
-    const dir = r.crew.find(c => c.job === 'Director')
+
+    const dir = r.crew.find((c) => c.job === 'Director')
     assert.equal(dir.name, 'Richard Donner')
-    
-    const chunk = r.cast.find(c => c.character === 'Chunk')
+
+    const chunk = r.cast.find((c) => c.character === 'Chunk')
     assert.equal(chunk.name, 'Jeff Cohen')
   })
 
@@ -66,7 +66,7 @@ describe('movie', () => {
 
   test('movieKeywords', async ({ assert }) => {
     const r = await tmdb.movieKeywords(9340)
-    const kw = r.keywords.map(i => i.name)
+    const kw = r.keywords.map((i) => i.name)
     assert.equal(kw.includes('booby trap'), true)
   })
 
@@ -83,7 +83,7 @@ describe('movie', () => {
   test('movieReleaseDates', async ({ assert }) => {
     const r = await tmdb.movieReleaseDates(9340)
     assert.equal(Array.isArray(r.results), true)
-    const us = r.results.find(x => x.iso_3166_1 === 'US')
+    const us = r.results.find((x) => x.iso_3166_1 === 'US')
     assert.equal(Array.isArray(us?.release_dates), true)
   })
 
@@ -100,7 +100,7 @@ describe('movie', () => {
   test('movieTranslations', async ({ assert }) => {
     const r = await tmdb.movieTranslations(9340)
     assert.equal(Array.isArray(r.translations), true)
-    assert.equal(!!r.translations.find(t => t.iso_639_1 === 'en'), true)
+    assert.equal(!!r.translations.find((t) => t.iso_639_1 === 'en'), true)
   })
 
   test('movieVideos', async ({ assert }) => {
@@ -171,14 +171,11 @@ describe('movie', () => {
     assert.equal(Array.isArray(r.results), true)
   })
 
-  test.skip('movieAddRating', async ({ assert }) => {
-  })
+  test.skip('movieAddRating', async ({ assert }) => {})
 
-  test.skip('movieDeleteRating', async ({ assert }) => {
-  })
+  test.skip('movieDeleteRating', async ({ assert }) => {})
 
-  test.skip('guestSessionRatedMovies', async ({ assert }) => {
-  })
+  test.skip('guestSessionRatedMovies', async ({ assert }) => {})
 })
 
 describe('tv', () => {
@@ -186,7 +183,7 @@ describe('tv', () => {
     const r = await tmdb.searchTv('supernatural')
     assert.equal(r.results[0].original_name, 'Supernatural')
   })
-  
+
   test('tvSeriesDetails', async ({ assert }) => {
     const r = await tmdb.tvSeriesDetails(1622)
     assert.equal(r.original_name, 'Supernatural')
@@ -431,29 +428,23 @@ describe('tv', () => {
     }
   })
 
-  test.skip('tvSeriesAddRating', async ({ assert }) => {
-  })
+  test.skip('tvSeriesAddRating', async ({ assert }) => {})
 
-  test.skip('tvSeriesDeleteRating', async ({ assert }) => {
-  })
+  test.skip('tvSeriesDeleteRating', async ({ assert }) => {})
 
-  test.skip('tvEpisodeAddRating', async ({ assert }) => {
-  })
+  test.skip('tvEpisodeAddRating', async ({ assert }) => {})
 
-  test.skip('tvEpisodeDeleteRating', async ({ assert }) => {
-  })
+  test.skip('tvEpisodeDeleteRating', async ({ assert }) => {})
 
-  test.skip('guestSessionRatedTv', async ({ assert }) => {
-  })
+  test.skip('guestSessionRatedTv', async ({ assert }) => {})
 
-  test.skip('guestSessionRatedTvEpisodes', async ({ assert }) => {
-  })
+  test.skip('guestSessionRatedTvEpisodes', async ({ assert }) => {})
 })
 
 describe('person', () => {
   test('searchPerson', async ({ assert }) => {
     const r = await tmdb.searchPerson('Jensen Ackles')
-    const person = r.results.find(p => p.name === 'Jensen Ackles')
+    const person = r.results.find((p) => p.name === 'Jensen Ackles')
     assert.equal(!!person, true)
   })
 
@@ -501,7 +492,7 @@ describe('person', () => {
 describe('company', () => {
   test('companyDetails', async ({ assert }) => {
     const r = await tmdb.companyDetails(213)
-    assert.equal(r.name, 'Cooper\'s Town')
+    assert.equal(r.name, "Cooper's Town")
   })
 
   test('companyAlternativeNames', async ({ assert }) => {
@@ -516,7 +507,7 @@ describe('company', () => {
 
   test('searchCompany', async ({ assert }) => {
     const r = await tmdb.searchCompany('Netflix')
-    const item = r.results.find(x => x.name === 'Netflix')
+    const item = r.results.find((x) => x.name === 'Netflix')
     assert.equal(!!item, true)
   })
 })
@@ -529,7 +520,7 @@ describe('configuration', () => {
 
   test('configurationCountries', async ({ assert }) => {
     const r = await tmdb.configurationCountries()
-    assert.equal(!!r.find(c => c.iso_3166_1 === 'US'), true)
+    assert.equal(!!r.find((c) => c.iso_3166_1 === 'US'), true)
   })
 
   test('configurationJobs', async ({ assert }) => {
@@ -539,7 +530,7 @@ describe('configuration', () => {
 
   test('configurationLanguages', async ({ assert }) => {
     const r = await tmdb.configurationLanguages()
-    assert.equal(!!r.find(l => l.iso_639_1 === 'en'), true)
+    assert.equal(!!r.find((l) => l.iso_639_1 === 'en'), true)
   })
 
   test('configurationPrimaryTranslations', async ({ assert }) => {
@@ -549,7 +540,7 @@ describe('configuration', () => {
 
   test('configurationTimezones', async ({ assert }) => {
     const r = await tmdb.configurationTimezones()
-    assert.equal(!!r.find(z => z.iso_3166_1 === 'US'), true)
+    assert.equal(!!r.find((z) => z.iso_3166_1 === 'US'), true)
   })
 })
 
@@ -571,7 +562,7 @@ describe('collection', () => {
 
   test('searchCollection', async ({ assert }) => {
     const r = await tmdb.searchCollection('star wars')
-    const item = r.results.find(x => x.name.includes('Star Wars'))
+    const item = r.results.find((x) => x.name.includes('Star Wars'))
     assert.equal(!!item, true)
   })
 })
@@ -579,7 +570,10 @@ describe('collection', () => {
 describe('other', () => {
   test('searchMulti', async ({ assert }) => {
     const r = await tmdb.searchMulti('goonies')
-    assert.equal(r.results.some(x => x.media_type === 'movie'), true)
+    assert.equal(
+      r.results.some((x) => x.media_type === 'movie'),
+      true
+    )
   })
 
   test('trendingAll', async ({ assert }) => {
@@ -616,7 +610,7 @@ describe('other', () => {
 
   test('watchProvidersAvailableRegions', async ({ assert }) => {
     const r = await tmdb.watchProvidersAvailableRegions()
-    assert.equal(Array.isArray(r.results) && r.results.some(x => x.iso_3166_1 === 'US'), true)
+    assert.equal(Array.isArray(r.results) && r.results.some((x) => x.iso_3166_1 === 'US'), true)
   })
 
   test('keywordDetails', async ({ assert }) => {
@@ -653,95 +647,65 @@ describe('other', () => {
 })
 
 describe('authentication', () => {
-  test.skip('authenticationCreateGuestSession', async ({ assert }) => {
-  })
+  test.skip('authenticationCreateGuestSession', async ({ assert }) => {})
 
-  test.skip('authenticationCreateRequestToken', async ({ assert }) => {
-  })
+  test.skip('authenticationCreateRequestToken', async ({ assert }) => {})
 
-  test.skip('authenticationCreateSession', async ({ assert }) => {
-  })
+  test.skip('authenticationCreateSession', async ({ assert }) => {})
 
-  test.skip('authenticationDeleteSession', async ({ assert }) => {
-  })
+  test.skip('authenticationDeleteSession', async ({ assert }) => {})
 
-  test.skip('authenticationValidateKey', async ({ assert }) => {
-  })
+  test.skip('authenticationValidateKey', async ({ assert }) => {})
 
-  test.skip('authenticationCreateSessionFromLogin', async ({ assert }) => {
-  })
+  test.skip('authenticationCreateSessionFromLogin', async ({ assert }) => {})
 })
 
 describe('account', () => {
-  test.skip('movieAccountStates', async ({ assert }) => {
-  })
+  test.skip('movieAccountStates', async ({ assert }) => {})
 
-  test.skip('tvSeriesAccountStates', async ({ assert }) => {
-  })
+  test.skip('tvSeriesAccountStates', async ({ assert }) => {})
 
-  test.skip('tvEpisodeAccountStates', async ({ assert }) => {
-  })
+  test.skip('tvEpisodeAccountStates', async ({ assert }) => {})
 
-  test.skip('tvSeasonAccountStates', async ({ assert }) => {
-  })
+  test.skip('tvSeasonAccountStates', async ({ assert }) => {})
 
-  test.skip('accountDetails', async ({ assert }) => {
-  })
+  test.skip('accountDetails', async ({ assert }) => {})
 
-  test.skip('accountLists', async ({ assert }) => {
-  })
+  test.skip('accountLists', async ({ assert }) => {})
 
-  test.skip('accountGetFavorites', async ({ assert }) => {
-  })
+  test.skip('accountGetFavorites', async ({ assert }) => {})
 
-  test.skip('accountFavoriteTv', async ({ assert }) => {
-  })
+  test.skip('accountFavoriteTv', async ({ assert }) => {})
 
-  test.skip('accountRatedMovies', async ({ assert }) => {
-  })
+  test.skip('accountRatedMovies', async ({ assert }) => {})
 
-  test.skip('accountRatedTv', async ({ assert }) => {
-  })
+  test.skip('accountRatedTv', async ({ assert }) => {})
 
-  test.skip('accountRatedTvEpisodes', async ({ assert }) => {
-  })
+  test.skip('accountRatedTvEpisodes', async ({ assert }) => {})
 
-  test.skip('accountWatchlistMovies', async ({ assert }) => {
-  })
+  test.skip('accountWatchlistMovies', async ({ assert }) => {})
 
-  test.skip('accountWatchlistTv', async ({ assert }) => {
-  })
+  test.skip('accountWatchlistTv', async ({ assert }) => {})
 
-  test.skip('accountAddFavorite', async ({ assert }) => {
-  })
+  test.skip('accountAddFavorite', async ({ assert }) => {})
 
-  test.skip('accountAddToWatchlist', async ({ assert }) => {
-  })
+  test.skip('accountAddToWatchlist', async ({ assert }) => {})
 })
 
 describe('lists', () => {
-  test.skip('listDetails', async ({ assert }) => {
-  })
+  test.skip('listDetails', async ({ assert }) => {})
 
-  test.skip('listDelete', async ({ assert }) => {
-  })
+  test.skip('listDelete', async ({ assert }) => {})
 
-  test.skip('listCheckItemStatus', async ({ assert }) => {
-  })
+  test.skip('listCheckItemStatus', async ({ assert }) => {})
 
-  test.skip('listCreate', async ({ assert }) => {
-  })
+  test.skip('listCreate', async ({ assert }) => {})
 
-  test.skip('listAddMovie', async ({ assert }) => {
-  })
+  test.skip('listAddMovie', async ({ assert }) => {})
 
-  test.skip('listRemoveMovie', async ({ assert }) => {
-  })
+  test.skip('listRemoveMovie', async ({ assert }) => {})
 
-  test.skip('listClear', async ({ assert }) => {
-  })
+  test.skip('listClear', async ({ assert }) => {})
 
-  test.skip('listsCopy', async ({ assert }) => {
-  })
+  test.skip('listsCopy', async ({ assert }) => {})
 })
-
