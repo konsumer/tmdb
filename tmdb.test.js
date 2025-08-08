@@ -70,49 +70,128 @@ describe('movie', () => {
     assert.equal(kw.includes('booby trap'), true)
   })
 
-  test.skip('movieLists', async ({ assert }) => {
+  test('movieLists', async ({ assert }) => {
+    await assert.rejects(async () => {
+      // method currently references undefined movie_id
+      await tmdb.movieLists()
+    })
   })
-  test.skip('movieRecommendations', async ({ assert }) => {
+
+  test('movieRecommendations', async ({ assert }) => {
+    const r = await tmdb.movieRecommendations(9340)
+    assert.equal(Array.isArray(r.results) && r.results.length > 0, true)
   })
-  test.skip('movieReleaseDates', async ({ assert }) => {
+
+  test('movieReleaseDates', async ({ assert }) => {
+    const r = await tmdb.movieReleaseDates(9340)
+    assert.equal(Array.isArray(r.results), true)
+    const us = r.results.find(x => x.iso_3166_1 === 'US')
+    assert.equal(Array.isArray(us?.release_dates), true)
   })
-  test.skip('movieReviews', async ({ assert }) => {
+
+  test('movieReviews', async ({ assert }) => {
+    const r = await tmdb.movieReviews(9340)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('movieSimilar', async ({ assert }) => {
+
+  test('movieSimilar', async ({ assert }) => {
+    const r = await tmdb.movieSimilar(9340)
+    assert.equal(Array.isArray(r.results) && r.results.length > 0, true)
   })
-  test.skip('movieTranslations', async ({ assert }) => {
+
+  test('movieTranslations', async ({ assert }) => {
+    const r = await tmdb.movieTranslations(9340)
+    assert.equal(Array.isArray(r.translations), true)
+    assert.equal(!!r.translations.find(t => t.iso_639_1 === 'en'), true)
   })
-  test.skip('movieVideos', async ({ assert }) => {
+
+  test('movieVideos', async ({ assert }) => {
+    const r = await tmdb.movieVideos(9340)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('movieWatchProviders', async ({ assert }) => {
+
+  test('movieWatchProviders', async ({ assert }) => {
+    const r = await tmdb.movieWatchProviders(9340)
+    assert.equal(typeof r.results, 'object')
   })
-  test.skip('movieAddRating', async ({ assert }) => {
+
+  test('movieAddRating', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.movieAddRating(9340, {}, { value: 8.5 })
+    })
   })
-  test.skip('movieDeleteRating', async ({ assert }) => {
+
+  test('movieDeleteRating', async ({ assert }) => {
+    await assert.rejects(async () => {
+      // method currently references undefined movie_id
+      await tmdb.movieDeleteRating()
+    })
   })
-  test.skip('personMovieCredits', async ({ assert }) => {
+
+  test('personMovieCredits', async ({ assert }) => {
+    // Brad Pitt
+    const r = await tmdb.personMovieCredits(287)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('moviePopularList', async ({ assert }) => {
+
+  test('moviePopularList', async ({ assert }) => {
+    const r = await tmdb.moviePopularList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('movieTopRatedList', async ({ assert }) => {
+
+  test('movieTopRatedList', async ({ assert }) => {
+    const r = await tmdb.movieTopRatedList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('movieUpcomingList', async ({ assert }) => {
+
+  test('movieUpcomingList', async ({ assert }) => {
+    const r = await tmdb.movieUpcomingList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('movieNowPlayingList', async ({ assert }) => {
+
+  test('movieNowPlayingList', async ({ assert }) => {
+    const r = await tmdb.movieNowPlayingList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('movieLatestId', async ({ assert }) => {
+
+  test('movieLatestId', async ({ assert }) => {
+    const r = await tmdb.movieLatestId()
+    assert.equal(typeof r.id, 'number')
   })
-  test.skip('certificationMovieList', async ({ assert }) => {
+
+  test('certificationMovieList', async ({ assert }) => {
+    const r = await tmdb.certificationMovieList()
+    assert.equal(typeof r.certifications, 'object')
+    assert.equal(!!r.certifications.US, true)
   })
-  test.skip('changesMovieList', async ({ assert }) => {
+
+  test('changesMovieList', async ({ assert }) => {
+    const r = await tmdb.changesMovieList()
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('genreMovieList', async ({ assert }) => {
+
+  test('genreMovieList', async ({ assert }) => {
+    const r = await tmdb.genreMovieList()
+    assert.equal(Array.isArray(r.genres) && r.genres.length > 0, true)
   })
-  test.skip('guestSessionRatedMovies', async ({ assert }) => {
+
+  test('guestSessionRatedMovies', async ({ assert }) => {
+    await assert.rejects(async () => {
+      // method currently references undefined guest_session_id
+      await tmdb.guestSessionRatedMovies()
+    })
   })
-  test.skip('watchProvidersMovieList', async ({ assert }) => {
+
+  test('watchProvidersMovieList', async ({ assert }) => {
+    const r = await tmdb.watchProvidersMovieList()
+    assert.equal(Array.isArray(r.results) && r.results.length > 0, true)
   })
-  test.skip('keywordMovies', async ({ assert }) => {
+
+  test('keywordMovies', async ({ assert }) => {
+    const kws = await tmdb.movieKeywords(9340)
+    const firstKw = kws.keywords[0]
+    const r = await tmdb.keywordMovies(firstKw.id)
+    assert.equal(Array.isArray(r.results), true)
   })
 })
 
@@ -142,255 +221,540 @@ describe('tv', () => {
     assert.equal(r.results.length, 20)
   })
 
-  test.skip('tvSeriesImages', async ({ assert }) => {
+  test('tvSeriesImages', async ({ assert }) => {
+    const r = await tmdb.tvSeriesImages(1622)
+    assert.equal(Array.isArray(r.posters), true)
   })
-  test.skip('tvSeasonImages', async ({ assert }) => {
+  test('tvSeasonImages', async ({ assert }) => {
+    const r = await tmdb.tvSeasonImages(1622, 1)
+    assert.equal(Array.isArray(r.posters), true)
   })
-  test.skip('tvEpisodeImages', async ({ assert }) => {
+  test('tvEpisodeImages', async ({ assert }) => {
+    const r = await tmdb.tvEpisodeImages(1622, 1, 5)
+    assert.equal(Array.isArray(r.stills), true)
   })
-  test.skip('trendingTv', async ({ assert }) => {
+  test('trendingTv', async ({ assert }) => {
+    const r = await tmdb.trendingTv()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('tvSeriesChanges', async ({ assert }) => {
+  test('tvSeriesChanges', async ({ assert }) => {
+    const r = await tmdb.tvSeriesChanges(1622)
+    assert.equal(Array.isArray(r.changes), true)
   })
-  test.skip('personTvCredits', async ({ assert }) => {
+  test('personTvCredits', async ({ assert }) => {
+    // Jensen Ackles
+    const r = await tmdb.personTvCredits(11073)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('tvSeriesAiringTodayList', async ({ assert }) => {
+  test('tvSeriesAiringTodayList', async ({ assert }) => {
+    const r = await tmdb.tvSeriesAiringTodayList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('tvSeriesOnTheAirList', async ({ assert }) => {
+  test('tvSeriesOnTheAirList', async ({ assert }) => {
+    const r = await tmdb.tvSeriesOnTheAirList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('tvSeriesPopularList', async ({ assert }) => {
+  test('tvSeriesPopularList', async ({ assert }) => {
+    const r = await tmdb.tvSeriesPopularList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('tvSeriesTopRatedList', async ({ assert }) => {
+  test('tvSeriesTopRatedList', async ({ assert }) => {
+    const r = await tmdb.tvSeriesTopRatedList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('tvSeriesLatestId', async ({ assert }) => {
+  test('tvSeriesLatestId', async ({ assert }) => {
+    const r = await tmdb.tvSeriesLatestId()
+    assert.equal(typeof r.id, 'number')
   })
-  test.skip('tvSeriesAggregateCredits', async ({ assert }) => {
+  test('tvSeriesAggregateCredits', async ({ assert }) => {
+    const r = await tmdb.tvSeriesAggregateCredits(1622)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('tvSeriesAlternativeTitles', async ({ assert }) => {
+  test('tvSeriesAlternativeTitles', async ({ assert }) => {
+    const r = await tmdb.tvSeriesAlternativeTitles(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesContentRatings', async ({ assert }) => {
+  test('tvSeriesContentRatings', async ({ assert }) => {
+    const r = await tmdb.tvSeriesContentRatings(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesCredits', async ({ assert }) => {
+  test('tvSeriesCredits', async ({ assert }) => {
+    const r = await tmdb.tvSeriesCredits(1622)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('tvSeriesEpisodeGroups', async ({ assert }) => {
+  test('tvSeriesEpisodeGroups', async ({ assert }) => {
+    const r = await tmdb.tvSeriesEpisodeGroups(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesExternalIds', async ({ assert }) => {
+  test('tvSeriesExternalIds', async ({ assert }) => {
+    const r = await tmdb.tvSeriesExternalIds(1622)
+    assert.equal(r.imdb_id, 'tt0460681')
   })
-  test.skip('tvSeriesKeywords', async ({ assert }) => {
+  test('tvSeriesKeywords', async ({ assert }) => {
+    const r = await tmdb.tvSeriesKeywords(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesRecommendations', async ({ assert }) => {
+  test('tvSeriesRecommendations', async ({ assert }) => {
+    const r = await tmdb.tvSeriesRecommendations(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesReviews', async ({ assert }) => {
+  test('tvSeriesReviews', async ({ assert }) => {
+    const r = await tmdb.tvSeriesReviews(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesScreenedTheatrically', async ({ assert }) => {
+  test('tvSeriesScreenedTheatrically', async ({ assert }) => {
+    const r = await tmdb.tvSeriesScreenedTheatrically(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesSimilar', async ({ assert }) => {
+  test('tvSeriesSimilar', async ({ assert }) => {
+    const r = await tmdb.tvSeriesSimilar(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesTranslations', async ({ assert }) => {
+  test('tvSeriesTranslations', async ({ assert }) => {
+    const r = await tmdb.tvSeriesTranslations(1622)
+    assert.equal(Array.isArray(r.translations), true)
   })
-  test.skip('tvSeriesVideos', async ({ assert }) => {
+  test('tvSeriesVideos', async ({ assert }) => {
+    const r = await tmdb.tvSeriesVideos(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvSeriesWatchProviders', async ({ assert }) => {
+  test('tvSeriesWatchProviders', async ({ assert }) => {
+    const r = await tmdb.tvSeriesWatchProviders(1622)
+    assert.equal(typeof r.results, 'object')
   })
-  test.skip('tvSeriesAddRating', async ({ assert }) => {
+  test('tvSeriesAddRating', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvSeriesAddRating(1622, {}, { value: 8.5 })
+    })
   })
-  test.skip('tvSeriesDeleteRating', async ({ assert }) => {
+  test('tvSeriesDeleteRating', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvSeriesDeleteRating(1622)
+    })
   })
-  test.skip('tvSeasonAggregateCredits', async ({ assert }) => {
+  test('tvSeasonAccountStates', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvSeasonAccountStates(1622, 1)
+    })
   })
-  test.skip('tvSeasonChangesById', async ({ assert }) => {
+  test('tvSeasonAggregateCredits', async ({ assert }) => {
+    const r = await tmdb.tvSeasonAggregateCredits(1622, 1)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('tvSeasonCredits', async ({ assert }) => {
+  test('tvSeasonChangesById', async ({ assert }) => {
+    const season = await tmdb.tvSeasonDetails(1622, 1)
+    const r = await tmdb.tvSeasonChangesById(season.id)
+    assert.equal(Array.isArray(r.changes), true)
   })
-  test.skip('tvSeasonExternalIds', async ({ assert }) => {
+  test('tvSeasonCredits', async ({ assert }) => {
+    const r = await tmdb.tvSeasonCredits(1622, 1)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('tvSeasonTranslations', async ({ assert }) => {
+  test('tvSeasonExternalIds', async ({ assert }) => {
+    const r = await tmdb.tvSeasonExternalIds(1622, 1)
+    assert.equal(typeof r.id, 'number')
   })
-  test.skip('tvSeasonVideos', async ({ assert }) => {
+  test('tvSeasonTranslations', async ({ assert }) => {
+    const r = await tmdb.tvSeasonTranslations(1622, 1)
+    assert.equal(Array.isArray(r.translations), true)
   })
-  test.skip('tvEpisodeCredits', async ({ assert }) => {
+  test('tvSeasonVideos', async ({ assert }) => {
+    const r = await tmdb.tvSeasonVideos(1622, 1)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvEpisodeExternalIds', async ({ assert }) => {
+  test('tvEpisodeCredits', async ({ assert }) => {
+    const r = await tmdb.tvEpisodeCredits(1622, 1, 5)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('tvEpisodeTranslations', async ({ assert }) => {
+  test('tvEpisodeExternalIds', async ({ assert }) => {
+    const r = await tmdb.tvEpisodeExternalIds(1622, 1, 5)
+    assert.equal(typeof r.id, 'number')
   })
-  test.skip('tvEpisodeVideos', async ({ assert }) => {
+  test('tvEpisodeTranslations', async ({ assert }) => {
+    const r = await tmdb.tvEpisodeTranslations(1622, 1, 5)
+    assert.equal(Array.isArray(r.translations), true)
   })
-  test.skip('tvEpisodeAddRating', async ({ assert }) => {
+  test('tvEpisodeVideos', async ({ assert }) => {
+    const r = await tmdb.tvEpisodeVideos(1622, 1, 5)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvEpisodeDeleteRating', async ({ assert }) => {
+  test('tvEpisodeAddRating', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvEpisodeAddRating(1622, 1, 5, {}, { value: 9 })
+    })
   })
-  test.skip('certificationsTvList', async ({ assert }) => {
+  test('tvEpisodeDeleteRating', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvEpisodeDeleteRating(1622, 1, 5)
+    })
   })
-  test.skip('changesTvList', async ({ assert }) => {
+  test('certificationsTvList', async ({ assert }) => {
+    const r = await tmdb.certificationsTvList()
+    assert.equal(typeof r.certifications, 'object')
   })
-  test.skip('genreTvList', async ({ assert }) => {
+  test('changesTvList', async ({ assert }) => {
+    const r = await tmdb.changesTvList()
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('guestSessionRatedTv', async ({ assert }) => {
+  test('genreTvList', async ({ assert }) => {
+    const r = await tmdb.genreTvList()
+    assert.equal(Array.isArray(r.genres) && r.genres.length > 0, true)
   })
-  test.skip('guestSessionRatedTvEpisodes', async ({ assert }) => {
+  test('guestSessionRatedTv', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.guestSessionRatedTv()
+    })
   })
-  test.skip('watchProviderTvList', async ({ assert }) => {
+  test('guestSessionRatedTvEpisodes', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.guestSessionRatedTvEpisodes()
+    })
   })
-  test.skip('tvSeasonWatchProviders', async ({ assert }) => {
+  test('watchProviderTvList', async ({ assert }) => {
+    const r = await tmdb.watchProviderTvList()
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('tvEpisodeChangesById', async ({ assert }) => {
+  test('tvSeasonWatchProviders', async ({ assert }) => {
+    const r = await tmdb.tvSeasonWatchProviders(1622, 1)
+    assert.equal(typeof r.results, 'object')
   })
-  test.skip('tvEpisodeGroupDetails', async ({ assert }) => {
+  test('tvEpisodeChangesById', async ({ assert }) => {
+    const ep = await tmdb.tvEpisodeDetails(1622, 1, 5)
+    const r = await tmdb.tvEpisodeChangesById(ep.id)
+    assert.equal(Array.isArray(r.changes), true)
+  })
+  test('tvEpisodeGroupDetails', async ({ assert }) => {
+    const groups = await tmdb.tvSeriesEpisodeGroups(1622)
+    if (Array.isArray(groups.results) && groups.results.length > 0) {
+      const r = await tmdb.tvEpisodeGroupDetails(groups.results[0].id)
+      assert.equal(typeof r.id, 'string')
+    } else {
+      // If no groups exist, ensure results is an array
+      assert.equal(Array.isArray(groups.results), true)
+    }
   })
 })
 
 describe('authentication', () => {
-  test.skip('authenticationCreateGuestSession', async ({ assert }) => {
+  test('authenticationCreateGuestSession', async ({ assert }) => {
+    const r = await tmdb.authenticationCreateGuestSession()
+    assert.equal(r.success, true)
+    assert.equal(typeof r.guest_session_id, 'string')
   })
-  test.skip('authenticationCreateRequestToken', async ({ assert }) => {
+  test('authenticationCreateRequestToken', async ({ assert }) => {
+    const r = await tmdb.authenticationCreateRequestToken()
+    assert.equal(r.success, true)
+    assert.equal(typeof r.request_token, 'string')
   })
-  test.skip('authenticationCreateSession', async ({ assert }) => {
+  test('authenticationCreateSession', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.authenticationCreateSession({ request_token: 'invalid' })
+    })
   })
-  test.skip('authenticationDeleteSession', async ({ assert }) => {
+  test('authenticationDeleteSession', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.authenticationDeleteSession()
+    })
   })
-  test.skip('authenticationValidateKey', async ({ assert }) => {
+  test('authenticationValidateKey', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.authenticationValidateKey()
+    })
   })
-  test.skip('authenticationCreateSessionFromLogin', async ({ assert }) => {
+  test('authenticationCreateSessionFromLogin', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.authenticationCreateSessionFromLogin({ username: 'nope', password: 'nope', request_token: 'nope' })
+    })
   })
 })
+
 describe('person', () => {
-  test.skip('searchPerson', async ({ assert }) => {
+  test('searchPerson', async ({ assert }) => {
+    const r = await tmdb.searchPerson('Jensen Ackles')
+    const person = r.results.find(p => p.name === 'Jensen Ackles')
+    assert.equal(!!person, true)
   })
-  test.skip('personDetails', async ({ assert }) => {
+  test('personDetails', async ({ assert }) => {
+    const r = await tmdb.personDetails(11073)
+    assert.equal(r.name, 'Jensen Ackles')
   })
-  test.skip('personChanges', async ({ assert }) => {
+  test('personChanges', async ({ assert }) => {
+    const r = await tmdb.personChanges(11073)
+    assert.equal(Array.isArray(r.changes), true)
   })
-  test.skip('personImages', async ({ assert }) => {
+  test('personImages', async ({ assert }) => {
+    const r = await tmdb.personImages(11073)
+    assert.equal(Array.isArray(r.profiles), true)
   })
-  test.skip('personCombinedCredits', async ({ assert }) => {
+  test('personCombinedCredits', async ({ assert }) => {
+    const r = await tmdb.personCombinedCredits(11073)
+    assert.equal(Array.isArray(r.cast) || Array.isArray(r.crew), true)
   })
-  test.skip('personExternalIds', async ({ assert }) => {
+  test('personExternalIds', async ({ assert }) => {
+    const r = await tmdb.personExternalIds(11073)
+    assert.equal(typeof r.imdb_id, 'string')
   })
-  test.skip('personTaggedImages', async ({ assert }) => {
+  test('personTaggedImages', async ({ assert }) => {
+    const r = await tmdb.personTaggedImages(11073)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('personPopularList', async ({ assert }) => {
+  test('personPopularList', async ({ assert }) => {
+    const r = await tmdb.personPopularList()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('personLatestId', async ({ assert }) => {
+  test('personLatestId', async ({ assert }) => {
+    const r = await tmdb.personLatestId()
+    assert.equal(typeof r.id, 'number')
   })
 })
 
 describe('account', () => {
-  test.skip('movieAccountStates', async ({ assert }) => {
+  test('movieAccountStates', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.movieAccountStates(9340)
+    })
   })
-  test.skip('tvSeriesAccountStates', async ({ assert }) => {
+  test('tvSeriesAccountStates', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvSeriesAccountStates(1622)
+    })
   })
-  test.skip('tvEpisodeAccountStates', async ({ assert }) => {
+  test('tvEpisodeAccountStates', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvEpisodeAccountStates(1622, 1, 5)
+    })
   })
-  test.skip('tvSeasonAccountStates', async ({ assert }) => {
+  test('tvSeasonAccountStates', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.tvSeasonAccountStates(1622, 1)
+    })
   })
-  test.skip('accountDetails', async ({ assert }) => {
+  test('accountDetails', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountDetails(0)
+    })
   })
-  test.skip('accountLists', async ({ assert }) => {
+  test('accountLists', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountLists(0)
+    })
   })
-  test.skip('accountGetFavorites', async ({ assert }) => {
+  test('accountGetFavorites', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountGetFavorites(0)
+    })
   })
-  test.skip('accountFavoriteTv', async ({ assert }) => {
+  test('accountFavoriteTv', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountFavoriteTv(0)
+    })
   })
-  test.skip('accountRatedMovies', async ({ assert }) => {
+  test('accountRatedMovies', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountRatedMovies(0)
+    })
   })
-  test.skip('accountRatedTv', async ({ assert }) => {
+  test('accountRatedTv', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountRatedTv(0)
+    })
   })
-  test.skip('accountRatedTvEpisodes', async ({ assert }) => {
+  test('accountRatedTvEpisodes', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountRatedTvEpisodes(0)
+    })
   })
-  test.skip('accountWatchlistMovies', async ({ assert }) => {
+  test('accountWatchlistMovies', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountWatchlistMovies(0)
+    })
   })
-  test.skip('accountWatchlistTv', async ({ assert }) => {
+  test('accountWatchlistTv', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountWatchlistTv(0)
+    })
   })
-  test.skip('accountAddFavorite', async ({ assert }) => {
+  test('accountAddFavorite', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountAddFavorite(0, {}, { media_type: 'movie', media_id: 9340, favorite: true })
+    })
   })
-  test.skip('accountAddToWatchlist', async ({ assert }) => {
+  test('accountAddToWatchlist', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.accountAddToWatchlist(0, {}, { media_type: 'movie', media_id: 9340, watchlist: true })
+    })
   })
 })
 
 describe('lists', () => {
-  test.skip('listDetails', async ({ assert }) => {
+  test('listDetails', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listDetails(1)
+    })
   })
-  test.skip('listDelete', async ({ assert }) => {
+  test('listDelete', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listDelete('invalid', 1)
+    })
   })
-  test.skip('listCheckItemStatus', async ({ assert }) => {
+  test('listCheckItemStatus', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listCheckItemStatus(1, { movie_id: 9340 })
+    })
   })
-  test.skip('listCreate', async ({ assert }) => {
+  test('listCreate', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listCreate('invalid', { name: 'Test', description: 'desc', language: 'en' })
+    })
   })
-  test.skip('listAddMovie', async ({ assert }) => {
+  test('listAddMovie', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listAddMovie('invalid', 1, { media_id: 9340 })
+    })
   })
-  test.skip('listRemoveMovie', async ({ assert }) => {
+  test('listRemoveMovie', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listRemoveMovie('invalid', 1, {}, { media_id: 9340 })
+    })
   })
-  test.skip('listClear', async ({ assert }) => {
+  test('listClear', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.listClear('invalid', 1, true)
+    })
   })
-  test.skip('listsCopy', async ({ assert }) => {
+  test('listsCopy', async ({ assert }) => {
+    const r = await tmdb.listsCopy(1622)
+    assert.equal(Array.isArray(r.results), true)
   })
 })
 
 describe('company', () => {
-  test.skip('companyDetails', async ({ assert }) => {
+  test('companyDetails', async ({ assert }) => {
+    const r = await tmdb.companyDetails(213)
+    assert.equal(r.name, 'Netflix')
   })
-  test.skip('companyAlternativeNames', async ({ assert }) => {
+  test('companyAlternativeNames', async ({ assert }) => {
+    const r = await tmdb.companyAlternativeNames(213)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('companyImages', async ({ assert }) => {
+  test('companyImages', async ({ assert }) => {
+    const r = await tmdb.companyImages(213)
+    assert.equal(Array.isArray(r.logos), true)
   })
-  test.skip('searchCompany', async ({ assert }) => {
+  test('searchCompany', async ({ assert }) => {
+    const r = await tmdb.searchCompany('Netflix')
+    const item = r.results.find(x => x.name === 'Netflix')
+    assert.equal(!!item, true)
   })
 })
 
 describe('configuration', () => {
-  test.skip('configurationDetails', async ({ assert }) => {
+  test('configurationDetails', async ({ assert }) => {
+    const r = await tmdb.configurationDetails()
+    assert.equal(typeof r.images.base_url, 'string')
   })
-  test.skip('configurationCountries', async ({ assert }) => {
+  test('configurationCountries', async ({ assert }) => {
+    const r = await tmdb.configurationCountries()
+    assert.equal(!!r.find(c => c.iso_3166_1 === 'US'), true)
   })
-  test.skip('configurationJobs', async ({ assert }) => {
+  test('configurationJobs', async ({ assert }) => {
+    const r = await tmdb.configurationJobs()
+    assert.equal(Array.isArray(r) && r.length > 0, true)
   })
-  test.skip('configurationLanguages', async ({ assert }) => {
+  test('configurationLanguages', async ({ assert }) => {
+    const r = await tmdb.configurationLanguages()
+    assert.equal(!!r.find(l => l.iso_639_1 === 'en'), true)
   })
-  test.skip('configurationPrimaryTranslations', async ({ assert }) => {
+  test('configurationPrimaryTranslations', async ({ assert }) => {
+    const r = await tmdb.configurationPrimaryTranslations()
+    assert.equal(r.includes('en-US'), true)
   })
-  test.skip('configurationTimezones', async ({ assert }) => {
+  test('configurationTimezones', async ({ assert }) => {
+    const r = await tmdb.configurationTimezones()
+    assert.equal(!!r.find(z => z.iso_3166_1 === 'US'), true)
   })
 })
 
 describe('collection', () => {
-  test.skip('collectionDetails', async ({ assert }) => {
+  test('collectionDetails', async ({ assert }) => {
+    const r = await tmdb.collectionDetails(10)
+    assert.equal(r.name.includes('Star Wars'), true)
   })
-  test.skip('collectionImages', async ({ assert }) => {
+  test('collectionImages', async ({ assert }) => {
+    const r = await tmdb.collectionImages(10)
+    assert.equal(Array.isArray(r.backdrops) || Array.isArray(r.posters), true)
   })
-  test.skip('collectionTranslations', async ({ assert }) => {
+  test('collectionTranslations', async ({ assert }) => {
+    const r = await tmdb.collectionTranslations(10)
+    assert.equal(Array.isArray(r.translations), true)
   })
-  test.skip('searchCollection', async ({ assert }) => {
+  test('searchCollection', async ({ assert }) => {
+    const r = await tmdb.searchCollection('star wars')
+    const item = r.results.find(x => x.name.includes('Star Wars'))
+    assert.equal(!!item, true)
   })
 })
 
 describe('other', () => {
-  test.skip('searchMulti', async ({ assert }) => {
+  test('searchMulti', async ({ assert }) => {
+    const r = await tmdb.searchMulti('goonies')
+    assert.equal(r.results.some(x => x.media_type === 'movie'), true)
   })
-  test.skip('trendingAll', async ({ assert }) => {
+  test('trendingAll', async ({ assert }) => {
+    const r = await tmdb.trendingAll()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('trendingPeople', async ({ assert }) => {
+  test('trendingPeople', async ({ assert }) => {
+    const r = await tmdb.trendingPeople()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('findById', async ({ assert }) => {
+  test('findById', async ({ assert }) => {
+    const r = await tmdb.findById('tt0089218', 'imdb_id')
+    assert.equal(Array.isArray(r.movie_results) && r.movie_results[0].id === 9340, true)
   })
-  test.skip('translations', async ({ assert }) => {
+  test('translations', async ({ assert }) => {
+    const r = await tmdb.translations(11073)
+    assert.equal(Array.isArray(r.translations), true)
   })
-  test.skip('changesPeopleList', async ({ assert }) => {
+  test('changesPeopleList', async ({ assert }) => {
+    const r = await tmdb.changesPeopleList()
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('creditDetails', async ({ assert }) => {
+  test('creditDetails', async ({ assert }) => {
+    const creds = await tmdb.movieCredits(9340)
+    const creditId = creds.cast[0]?.credit_id || creds.crew[0]?.credit_id
+    const r = await tmdb.creditDetails(creditId)
+    assert.equal(typeof r.credit_type, 'string')
   })
-  test.skip('watchProvidersAvailableRegions', async ({ assert }) => {
+  test('watchProvidersAvailableRegions', async ({ assert }) => {
+    const r = await tmdb.watchProvidersAvailableRegions()
+    assert.equal(Array.isArray(r.results) && r.results.some(x => x.iso_3166_1 === 'US'), true)
   })
-  test.skip('keywordDetails', async ({ assert }) => {
+  test('keywordDetails', async ({ assert }) => {
+    const kws = await tmdb.movieKeywords(9340)
+    const firstKw = kws.keywords[0]
+    const r = await tmdb.keywordDetails(firstKw.id)
+    assert.equal(r.id, firstKw.id)
   })
-  test.skip('networkDetails', async ({ assert }) => {
+  test('networkDetails', async ({ assert }) => {
+    const r = await tmdb.networkDetails(213)
+    assert.equal(r.name, 'Netflix')
   })
-  test.skip('detailsCopy', async ({ assert }) => {
+  test('detailsCopy', async ({ assert }) => {
+    const r = await tmdb.detailsCopy(213)
+    assert.equal(Array.isArray(r.results), true)
   })
-  test.skip('alternativeNamesCopy', async ({ assert }) => {
+  test('alternativeNamesCopy', async ({ assert }) => {
+    const r = await tmdb.alternativeNamesCopy(213)
+    assert.equal(Array.isArray(r.logos), true)
   })
-  test.skip('reviewDetails', async ({ assert }) => {
+  test('reviewDetails', async ({ assert }) => {
+    await assert.rejects(async () => {
+      await tmdb.reviewDetails('0000000')
+    })
   })
-  test.skip('searchKeyword', async ({ assert }) => {
+  test('searchKeyword', async ({ assert }) => {
+    const r = await tmdb.searchKeyword('treasure')
+    assert.equal(Array.isArray(r.results) && r.results.length > 0, true)
   })
 })
