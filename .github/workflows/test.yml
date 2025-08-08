@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  TMDB_API_KEY: "${{ secrets.MY_API_KEY }}"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -16,4 +19,4 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Run tests
-        run: TMDB_API_KEY=${{ secrets.MY_API_KEY }} npm test
+        run: npm test
