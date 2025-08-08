@@ -23,4 +23,4 @@ const r = await tmdb.searchMovie("Goonies")
 console.log(r)
 ```
 
-For more exmaples, see the [unit-test](tmdb.test.js).
+For more examples, see the [unit-test](tmdb.test.js).
