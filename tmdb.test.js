@@ -632,9 +632,8 @@ describe('other', () => {
   })
 
   test('reviewDetails', async ({ assert }) => {
-    await assert.rejects(async () => {
-      await tmdb.reviewDetails('0000000')
-    })
+    const r = await tmdb.reviewDetails('5c337a2a925141635e73acf5')
+    assert.equal(r.author, 'John Chard')
   })
 
   test('searchKeyword', async ({ assert }) => {
