@@ -5,8 +5,7 @@
   "author": "konsumer",
   "license": "MIT",
   "scripts": {
-    "test": "node --test",
-    "gen": "node generator.js"
+    "test": "node --test"
   },
   "exports": {
     ".": "TmDB.js"
