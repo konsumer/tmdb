@@ -9,9 +9,11 @@ if (!TMDB_API_KEY) {
 
 const tmdb = new TmDB(TMDB_API_KEY)
 
+// TODO: skipped tests just haven't been written yet, but the function should work ok
+
 describe('movie', () => {
   test('searchMovie', async ({ assert }) => {
-    const r = await tmdb.searchMovie("Goonies")
+    const r = await tmdb.searchMovie("goonies")
     assert.equal(r.results[0].original_title, 'The Goonies')
   })
   
@@ -25,20 +27,49 @@ describe('movie', () => {
     assert.equal(r.original_title, 'The Goonies')
   })
 
-  test.skip('movieImages', async ({ assert }) => {
+  test('movieImages', async ({ assert }) => {
+    const r = await tmdb.movieImages(9340)
+    assert.equal(r.posters.length > 100, true)
   })
-  test.skip('trendingMovies', async ({ assert }) => {
+
+  test('trendingMovies', async ({ assert }) => {
+    const r = await tmdb.trendingMovies()
+    assert.equal(r.results.length, 20)
   })
-  test.skip('movieAlternativeTitles', async ({ assert }) => {
+
+  test('movieAlternativeTitles', async ({ assert }) => {
+    const r = await tmdb.movieAlternativeTitles(9340)
+    const st = r.titles.find(t => t.iso_3166_1 === 'FI')
+    assert.equal(st.title, 'Dödskallegänget')
   })
-  test.skip('movieChanges', async ({ assert }) => {
+
+  test('movieChanges', async ({ assert }) => {
+    const r = await tmdb.movieChanges(9340)
+    assert.deepEqual(r.changes, [])
   })
-  test.skip('movieCredits', async ({ assert }) => {
+
+  test('movieCredits', async ({ assert }) => {
+    const r = await tmdb.movieCredits(9340)
+    
+    const dir = r.crew.find(c => c.job === 'Director')
+    assert.equal(dir.name, 'Richard Donner')
+    
+    const chunk = r.cast.find(c => c.character === 'Chunk')
+    assert.equal(chunk.name, 'Jeff Cohen')
   })
-  test.skip('movieExternalIds', async ({ assert }) => {
+
+  test('movieExternalIds', async ({ assert }) => {
+    const r = await tmdb.movieExternalIds(9340)
+    assert.equal(r.imdb_id, 'tt0089218')
+    assert.equal(r.facebook_id, 'thegooniesmovie')
   })
-  test.skip('movieKeywords', async ({ assert }) => {
+
+  test('movieKeywords', async ({ assert }) => {
+    const r = await tmdb.movieKeywords(9340)
+    const kw = r.keywords.map(i => i.name)
+    assert.equal(kw.includes('booby trap'), true)
   })
+
   test.skip('movieLists', async ({ assert }) => {
   })
   test.skip('movieRecommendations', async ({ assert }) => {
@@ -84,17 +115,33 @@ describe('movie', () => {
   test.skip('keywordMovies', async ({ assert }) => {
   })
 })
+
 describe('tv', () => {
-  test.skip('tvSeriesDetails', async ({ assert }) => {
+  test('searchTv', async ({ assert }) => {
+    const r = await tmdb.searchTv('supernatural')
+    assert.equal(r.results[0].original_name, 'Supernatural')
   })
-  test.skip('searchTv', async ({ assert }) => {
+  
+  test('tvSeriesDetails', async ({ assert }) => {
+    const r = await tmdb.tvSeriesDetails(1622)
+    assert.equal(r.original_name, 'Supernatural')
   })
-  test.skip('tvSeasonDetails', async ({ assert }) => {
+
+  test('tvSeasonDetails', async ({ assert }) => {
+    const r = await tmdb.tvSeasonDetails(1622, 1)
+    assert.equal(r.episodes.length, 22)
   })
-  test.skip('tvEpisodeDetails', async ({ assert }) => {
+
+  test('tvEpisodeDetails', async ({ assert }) => {
+    const r = await tmdb.tvEpisodeDetails(1622, 1, 5)
+    assert.equal(r.name, 'Bloody Mary')
   })
-  test.skip('discoverTv', async ({ assert }) => {
+
+  test('discoverTv', async ({ assert }) => {
+    const r = await tmdb.discoverTv()
+    assert.equal(r.results.length, 20)
   })
+
   test.skip('tvSeriesImages', async ({ assert }) => {
   })
   test.skip('tvSeasonImages', async ({ assert }) => {
@@ -192,6 +239,7 @@ describe('tv', () => {
   test.skip('tvEpisodeGroupDetails', async ({ assert }) => {
   })
 })
+
 describe('authentication', () => {
   test.skip('authenticationCreateGuestSession', async ({ assert }) => {
   })
@@ -226,6 +274,7 @@ describe('person', () => {
   test.skip('personLatestId', async ({ assert }) => {
   })
 })
+
 describe('account', () => {
   test.skip('movieAccountStates', async ({ assert }) => {
   })
@@ -258,6 +307,63 @@ describe('account', () => {
   test.skip('accountAddToWatchlist', async ({ assert }) => {
   })
 })
+
+describe('lists', () => {
+  test.skip('listDetails', async ({ assert }) => {
+  })
+  test.skip('listDelete', async ({ assert }) => {
+  })
+  test.skip('listCheckItemStatus', async ({ assert }) => {
+  })
+  test.skip('listCreate', async ({ assert }) => {
+  })
+  test.skip('listAddMovie', async ({ assert }) => {
+  })
+  test.skip('listRemoveMovie', async ({ assert }) => {
+  })
+  test.skip('listClear', async ({ assert }) => {
+  })
+  test.skip('listsCopy', async ({ assert }) => {
+  })
+})
+
+describe('company', () => {
+  test.skip('companyDetails', async ({ assert }) => {
+  })
+  test.skip('companyAlternativeNames', async ({ assert }) => {
+  })
+  test.skip('companyImages', async ({ assert }) => {
+  })
+  test.skip('searchCompany', async ({ assert }) => {
+  })
+})
+
+describe('configuration', () => {
+  test.skip('configurationDetails', async ({ assert }) => {
+  })
+  test.skip('configurationCountries', async ({ assert }) => {
+  })
+  test.skip('configurationJobs', async ({ assert }) => {
+  })
+  test.skip('configurationLanguages', async ({ assert }) => {
+  })
+  test.skip('configurationPrimaryTranslations', async ({ assert }) => {
+  })
+  test.skip('configurationTimezones', async ({ assert }) => {
+  })
+})
+
+describe('collection', () => {
+  test.skip('collectionDetails', async ({ assert }) => {
+  })
+  test.skip('collectionImages', async ({ assert }) => {
+  })
+  test.skip('collectionTranslations', async ({ assert }) => {
+  })
+  test.skip('searchCollection', async ({ assert }) => {
+  })
+})
+
 describe('other', () => {
   test.skip('searchMulti', async ({ assert }) => {
   })
@@ -286,57 +392,5 @@ describe('other', () => {
   test.skip('reviewDetails', async ({ assert }) => {
   })
   test.skip('searchKeyword', async ({ assert }) => {
-  })
-})
-describe('lists', () => {
-  test.skip('listDetails', async ({ assert }) => {
-  })
-  test.skip('listDelete', async ({ assert }) => {
-  })
-  test.skip('listCheckItemStatus', async ({ assert }) => {
-  })
-  test.skip('listCreate', async ({ assert }) => {
-  })
-  test.skip('listAddMovie', async ({ assert }) => {
-  })
-  test.skip('listRemoveMovie', async ({ assert }) => {
-  })
-  test.skip('listClear', async ({ assert }) => {
-  })
-  test.skip('listsCopy', async ({ assert }) => {
-  })
-})
-describe('company', () => {
-  test.skip('companyDetails', async ({ assert }) => {
-  })
-  test.skip('companyAlternativeNames', async ({ assert }) => {
-  })
-  test.skip('companyImages', async ({ assert }) => {
-  })
-  test.skip('searchCompany', async ({ assert }) => {
-  })
-})
-describe('configuration', () => {
-  test.skip('configurationDetails', async ({ assert }) => {
-  })
-  test.skip('configurationCountries', async ({ assert }) => {
-  })
-  test.skip('configurationJobs', async ({ assert }) => {
-  })
-  test.skip('configurationLanguages', async ({ assert }) => {
-  })
-  test.skip('configurationPrimaryTranslations', async ({ assert }) => {
-  })
-  test.skip('configurationTimezones', async ({ assert }) => {
-  })
-})
-describe('collection', () => {
-  test.skip('collectionDetails', async ({ assert }) => {
-  })
-  test.skip('collectionImages', async ({ assert }) => {
-  })
-  test.skip('collectionTranslations', async ({ assert }) => {
-  })
-  test.skip('searchCollection', async ({ assert }) => {
   })
 })

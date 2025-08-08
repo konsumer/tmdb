@@ -58,7 +58,7 @@ export default class TmDB {
   }
   // Details
   tvEpisodeDetails(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}`, o)
   }
   // TV
   discoverTv(o = {}) {
@@ -81,15 +81,15 @@ export default class TmDB {
     return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/images`, o)
   }
   // All
-  trendingAll(time_window, o = {}) {
+  trendingAll(time_window='day', o = {}) {
     return this.q(`trending/all/${time_window}`, o)
   }
   // Movies
-  trendingMovies(time_window, o = {}) {
+  trendingMovies(time_window='day', o = {}) {
     return this.q(`trending/movie/${time_window}`, o)
   }
   // TV
-  trendingTv(time_window, o = {}) {
+  trendingTv(time_window='day', o = {}) {
     return this.q(`trending/tv/${time_window}`, o)
   }
   // Account States
@@ -105,7 +105,7 @@ export default class TmDB {
     return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/account_states`, o)
   }
   // People
-  trendingPeople(time_window, o = {}) {
+  trendingPeople(time_window='day', o = {}) {
     return this.q(`trending/person/${time_window}`, o)
   }
   // Alternative Titles
