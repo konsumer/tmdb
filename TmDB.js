@@ -6,7 +6,7 @@ export default class TmDB {
   // perform API request
   async q(u, params = {}, body) {
     const options = { headers: { accept: `application/json`, authorization: `Bearer ${this.token}` } }
-    const url = new URL(`https://api.themoviedb.org/3/${u}`)
+    const url = new URL(`https://api.themoviedb.org/${u}`)
     url.search = new URLSearchParams(params)
     if (body) {
       options.headers[`content-type`] = `application/json`
@@ -78,7 +78,7 @@ export default class TmDB {
   }
   // Images
   tvEpisodeImages(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/images`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/images`, o)
   }
   // All
   trendingAll(time_window='day', o = {}) {
@@ -338,11 +338,11 @@ export default class TmDB {
   }
   // Account States
   tvSeasonAccountStates(series_id, season_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/account_states`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/account_states`, o)
   }
   // Aggregate Credits
   tvSeasonAggregateCredits(series_id, season_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/aggregate_credits`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/aggregate_credits`, o)
   }
   // Changes
   tvSeasonChangesById(season_id, o = {}) {
@@ -366,27 +366,27 @@ export default class TmDB {
   }
   // Credits
   tvEpisodeCredits(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/credits`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/credits`, o)
   }
   // External IDs
   tvEpisodeExternalIds(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/external_ids`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/external_ids`, o)
   }
   // Translations
   tvEpisodeTranslations(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/translations`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/translations`, o)
   }
   // Videos
   tvEpisodeVideos(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/videos`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/videos`, o)
   }
   // Add Rating
   tvEpisodeAddRating(series_id, season_number, episode_number, o = {}, body) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/rating`, o, body)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/rating`, o, body)
   }
   // Delete Rating
   tvEpisodeDeleteRating(series_id, season_number, episode_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/episode/${episode_number}/rating`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/episode/${episode_number}/rating`, o)
   }
   // Details
   accountDetails(account_id, o = {}) {
@@ -570,7 +570,7 @@ export default class TmDB {
   }
   // Watch Providers
   tvSeasonWatchProviders(series_id, season_number, o = {}) {
-    return this.q(`3/tv/${series_id}/season/${season_number}/watch/providers`, o)
+    return this.q(`tv/${series_id}/season/${season_number}/watch/providers`, o)
   }
   // Countries
   configurationCountries(o = {}) {
