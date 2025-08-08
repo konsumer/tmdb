@@ -5,12 +5,11 @@ on:
     branches:
       - main
 
-env:
-  TMDB_API_KEY: "${{ secrets.MY_API_KEY }}"
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
