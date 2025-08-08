@@ -642,10 +642,14 @@ describe('other', () => {
     assert.equal(Array.isArray(r.results) && r.results.length > 0, true)
   })
 
-  test.skip('detailsCopy', async ({ assert }) => {
+  test('networkAlternativeNames', async ({ assert }) => {
+    const r = await tmdb.networkAlternativeNames(213)
+    assert.equal(r.results.length > 2, true)
   })
 
-  test.skip('alternativeNamesCopy', async ({ assert }) => {
+  test('networkImages', async ({ assert }) => {
+    const r = await tmdb.networkImages(213)
+    assert.equal(r.logos.length > 1, true)
   })
 })
 

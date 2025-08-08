@@ -553,11 +553,11 @@ export default class TmDB {
     return this.q(`network/${network_id}`, o)
   }
   // Alternative Names
-  detailsCopy(network_id, o = {}) {
+  networkAlternativeNames(network_id, o = {}) {
     return this.q(`network/${network_id}/alternative_names`, o)
   }
   // Images
-  alternativeNamesCopy(network_id, o = {}) {
+  networkImages(network_id, o = {}) {
     return this.q(`network/${network_id}/images`, o)
   }
   // Details
